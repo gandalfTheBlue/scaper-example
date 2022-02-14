@@ -1,0 +1,29 @@
+# dependencies
+/node_modules
+
+# IDE
+/.idea
+/.awcache
+/.vscode
+!/.vscode/launch.json
+!/.vscode/settings.json
+
+# misc
+npm-debug.log
+
+# tests
+/test
+/coverage
+/.nyc_output
+
+# dist
+/dist
+
+/.husky
+
+api-test
+
+.DS_Store
+
+scripts
+scripts.zip
