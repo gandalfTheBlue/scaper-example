@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common'
 import puppeteer from 'puppeteer'
 import delay from 'delay'
+import { ScralerConfig } from '../../strategy/protocols/strategy-scrawler/strategy-scrawler.type'
 
 @Injectable()
 export class CrawlerService {
@@ -19,17 +20,17 @@ export class CrawlerService {
   }
 
   public async getDataFromPage<T>(
-    url: string,
-    getDataFn: (page: puppeteer.Page) => Promise<T[]>,
+    config: ScralerConfig,
+    getDataFn: (page: puppeteer.Page, config: ScralerConfig) => Promise<T[]>,
     timeout = 60000 * 3
   ) {
     if (!this.browser) {
       await this.initBrowser()
     }
-    await this.closeDuplicatePages(url)
+    await this.closeDuplicatePages(config.url)
     const page = await this.browser.newPage()
-    await page.goto(url, { waitUntil: 'networkidle0', timeout })
-    const result = await getDataFn(page)
+    await page.goto(config.url, { waitUntil: 'networkidle0', timeout })
+    const result = await getDataFn(page, config)
     await page.close()
     return result
   }
